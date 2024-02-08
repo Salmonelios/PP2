@@ -1,7 +1,3 @@
-
-
-
-
 movies = [
 {
 "name": "Usual Suspects", 
