@@ -30,7 +30,7 @@ prevY = 0
 fig = 0
 
 done = False
-Eveeent = pygame.USEREVENT
+Eveeent = pygame.USEREVENT #event for title of color
 
 def calculate_rect(x1, y1, x2, y2):
     return pygame.Rect(min(x1, x2), min(y1, y2), abs(x1 - x2), abs(y1 - y2))
@@ -43,7 +43,7 @@ while not done:
             done = True
         if event.type == Eveeent:
             pygame.draw.rect(screen, colorBLACK, pygame.Rect(10, 570, 130, 50))
-            pygame.time.set_timer(Eveeent, 0)
+            pygame.time.set_timer(Eveeent, 0) # deleting title of color choosed after 1s
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             LMBpressed = True
             if fig == 0 or fig == 3 or fig == 5:
@@ -70,6 +70,7 @@ while not done:
                     pygame.draw.polygon(screen, lst[i], ((prevX, prevY), (prevX+(max(abs(currX-prevX), abs(currY-prevY))/math.sqrt(3)), prevY+max(abs(currX-prevX), abs(currY-prevY))), (prevX-(max(abs(currX-prevX), abs(currY-prevY))/math.sqrt(3)), prevY+max(abs(currX-prevX), abs(currY-prevY)))))
                 if fig == 7:
                     pygame.draw.polygon(screen, lst[i], ((prevX, prevY), (prevX+(max(abs(currX-prevX), abs(currY-prevY))/math.sqrt(3))/2, prevY+(max(abs(currX-prevX), abs(currY-prevY)))/2), (prevX, prevY + max(abs(currX-prevX), abs(currY-prevY))), (prevX-(max(abs(currX-prevX), abs(currY-prevY))/math.sqrt(3))/2, prevY+max(abs(currX-prevX), abs(currY-prevY))/2)))
+                # drawing figures by indexes not finaly displaying on screen
         if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             LMBpressed = False
             currX = event.pos[0]
@@ -87,10 +88,13 @@ while not done:
             if fig == 7:
                 pygame.draw.polygon(screen, lst[i], ((prevX, prevY), (prevX+(max(abs(currX-prevX), abs(currY-prevY))/math.sqrt(3))/2, prevY+(max(abs(currX-prevX), abs(currY-prevY)))/2), (prevX, prevY + max(abs(currX-prevX), abs(currY-prevY))), (prevX-(max(abs(currX-prevX), abs(currY-prevY))/math.sqrt(3))/2, prevY+max(abs(currX-prevX), abs(currY-prevY))/2)))
             add_screen.blit(screen, (0,0))
+            # final display figures on screen after release mouse button
         if fig == 0:
             pygame.draw.line(screen, lst[i], (prevX, prevY), (currX, currY), THICKNESS)
+            # simple line
         if fig == 3:
             pygame.draw.line(screen, colorBLACK, (prevX, prevY), (currX, currY), THICKNESS)
+            # eraser
         if event.type == pygame.KEYDOWN: 
             if event.key == pygame.K_EQUALS:
                 THICKNESS += 1
@@ -114,6 +118,7 @@ while not done:
                 if i == 2:
                     screen.blit(font.render("Color: white",True, (0, 255, 255)), (10, 570))
                     pygame.time.set_timer(Eveeent, 1000)
+            # changing colors
                 
     keys = pygame.key.get_pressed()
     
@@ -131,6 +136,7 @@ while not done:
     if keys[pygame.K_t]: fig = 5
     if keys[pygame.K_p]: fig = 6
     if keys[pygame.K_o]: fig = 7
+    # selecting figures
 
     pygame.display.flip()
     clock.tick(60)
