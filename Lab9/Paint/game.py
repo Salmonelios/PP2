@@ -1,4 +1,5 @@
 import pygame
+import math
 
 pygame.init()
 
@@ -45,12 +46,12 @@ while not done:
             pygame.time.set_timer(Eveeent, 0)
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             LMBpressed = True
-            if fig == 0 or fig == 3:
+            if fig == 0 or fig == 3 or fig == 5:
                 currX = event.pos[0]
                 currY = event.pos[1]
                 prevX = event.pos[0]
                 prevY = event.pos[1]
-            if fig != 0 and fig != 3:
+            else:
                 prevX = event.pos[0]
                 prevY = event.pos[1]
         if event.type == pygame.MOUSEMOTION:
@@ -64,7 +65,11 @@ while not done:
                 if fig == 4:
                     pygame.draw.rect(screen, lst[i], pygame.Rect(min(prevX, currX), min(prevY, currY), abs(prevX-currX), abs(prevX-currX)))
                 if fig == 5:
-                    pygame.draw.polygon(screen, lst[i], ((prevX, prevY), (abs(prevX-currX), prevY), (prevX, abs(prevY-currY))))
+                    pygame.draw.polygon(screen, lst[i], ((prevX, prevY+(prevY-currY)), (prevX+(prevX-currX), prevY), (prevX, prevY)))
+                if fig == 6:
+                    pygame.draw.polygon(screen, lst[i], ((prevX, prevY), (prevX+(max(abs(currX-prevX), abs(currY-prevY))/math.sqrt(3)), prevY+max(abs(currX-prevX), abs(currY-prevY))), (prevX-(max(abs(currX-prevX), abs(currY-prevY))/math.sqrt(3)), prevY+max(abs(currX-prevX), abs(currY-prevY)))))
+                if fig == 7:
+                    pygame.draw.polygon(screen, lst[i], ((prevX, prevY), (prevX+(max(abs(currX-prevX), abs(currY-prevY))/math.sqrt(3))/2, prevY+(max(abs(currX-prevX), abs(currY-prevY)))/2), (prevX, prevY + max(abs(currX-prevX), abs(currY-prevY))), (prevX-(max(abs(currX-prevX), abs(currY-prevY))/math.sqrt(3))/2, prevY+max(abs(currX-prevX), abs(currY-prevY))/2)))
         if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             LMBpressed = False
             currX = event.pos[0]
@@ -75,7 +80,12 @@ while not done:
                 pygame.draw.circle(screen, lst[i], (prevX, prevY), max(abs(currX-prevX), abs(currY-prevY)), THICKNESS)
             if fig == 4:
                 pygame.draw.rect(screen, lst[i], pygame.Rect(min(prevX, currX), min(prevY, currY), abs(prevX-currX), abs(prevX-currX)))
-
+            if fig == 5:
+                pygame.draw.polygon(screen, lst[i], ((prevX, prevY+(prevY-currY)), (prevX+(prevX-currX), prevY), (prevX, prevY)))
+            if fig == 6:
+                pygame.draw.polygon(screen, lst[i], ((prevX, prevY), (prevX+(max(abs(currX-prevX), abs(currY-prevY))/math.sqrt(3)), prevY+max(abs(currX-prevX), abs(currY-prevY))), (prevX-(max(abs(currX-prevX), abs(currY-prevY))/math.sqrt(3)), prevY+max(abs(currX-prevX), abs(currY-prevY)))))
+            if fig == 7:
+                pygame.draw.polygon(screen, lst[i], ((prevX, prevY), (prevX+(max(abs(currX-prevX), abs(currY-prevY))/math.sqrt(3))/2, prevY+(max(abs(currX-prevX), abs(currY-prevY)))/2), (prevX, prevY + max(abs(currX-prevX), abs(currY-prevY))), (prevX-(max(abs(currX-prevX), abs(currY-prevY))/math.sqrt(3))/2, prevY+max(abs(currX-prevX), abs(currY-prevY))/2)))
             add_screen.blit(screen, (0,0))
         if fig == 0:
             pygame.draw.line(screen, lst[i], (prevX, prevY), (currX, currY), THICKNESS)
@@ -119,6 +129,8 @@ while not done:
     if keys[pygame.K_e]: fig = 3
     if keys[pygame.K_s]: fig = 4
     if keys[pygame.K_t]: fig = 5
+    if keys[pygame.K_p]: fig = 6
+    if keys[pygame.K_o]: fig = 7
 
     pygame.display.flip()
     clock.tick(60)
