@@ -27,6 +27,7 @@ WIDTH = 600
 HEIGHT = 600
 SCORE = 0
 LEVEL = 0
+loaded_level = 0
 TEXT = ""
 k = random.randrange(3)
 y = 0
@@ -88,9 +89,7 @@ class Snake:
             if k == 0 : SCORE += 1
             if k == 1 : SCORE += 2
             if k == 2 : SCORE += 5
-            if y != SCORE//10 and SCORE//10 != 0:
-                LEVEL += 1
-            y = SCORE//10
+            LEVEL = loaded_level + SCORE//10
             k = random.randrange(3) #randomly choosing a food
             
             lst[k].pos = Point(random.randrange(HEIGHT//30), random.randrange(WIDTH//30))
@@ -187,6 +186,7 @@ while not done:
 cur.execute(f"SELECT * FROM snake_users WHERE nickname  = '{TEXT}'")
 found = cur.fetchone()
 if found:
+    loaded_level = found[1]
     LEVEL = found[1]
 else:
     cur.execute(f"""INSERT INTO snake_users (nickname, level) VALUES
